@@ -126,7 +126,8 @@ resource "aws_iam_policy" "datadog-core" {
         "tag:GetTagKeys",
         "tag:GetTagValues",
         "xray:BatchGetTraces",
-        "xray:GetTraceSummaries"
+        "xray:GetTraceSummaries",
+        "fsx:DescribeFileSystems"
       ],
       "Effect": "Allow",
       "Resource": "*"
