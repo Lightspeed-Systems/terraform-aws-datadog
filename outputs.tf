@@ -5,6 +5,6 @@ output "datadog_iam_role" {
   value = var.enable_datadog_aws_integration ? aws_iam_role.datadog-integration[0].name : ""
 }
 
-output "datadog_elb_logs_bucket_arn" {
-  value = var.create_elb_logs_bucket ? aws_s3_bucket.elb_logs[0].arn : null
+output "datadog_elb_logs_bucket" {
+  value = var.create_elb_logs_bucket ? aws_s3_bucket.elb_logs[0].name : null
 }
