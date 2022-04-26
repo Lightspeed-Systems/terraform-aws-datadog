@@ -6,5 +6,5 @@ output "datadog_iam_role" {
 }
 
 output "datadog_elb_logs_bucket" {
-  value = var.create_elb_logs_bucket ? aws_s3_bucket.elb_logs[0].name : null
+  value = var.create_elb_logs_bucket ? aws_s3_bucket.elb_logs[0].id : null
 }
