@@ -92,3 +92,8 @@ variable "extra_policy_arns" {
   type        = list(string)
   default     = []
 }
+
+variable "archive_bucket_name" {
+  description = "Prefix for datadog archive logs S3 bucket name"
+  type        = string
+}

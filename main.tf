@@ -137,10 +137,49 @@ resource "aws_iam_policy" "datadog-core" {
 EOF
 }
 
+
+resource "aws_iam_policy" "datadog-archive-logs" {
+  count       = var.enable_datadog_aws_integration ? 1 : 0
+  name        = "datadog-archive-logs"
+  path        = "/"
+  description = "This IAM policy allows for core datadog integration permissions"
+
+  policy = <<EOF
+{
+
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DatadogUploadAndRehydrateLogArchives",
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": [
+        "arn:aws:s3:::${var.archive_bucket_name}/*"
+      ]
+    },
+    {
+      "Sid": "DatadogRehydrateLogArchivesListBucket",
+      "Effect": "Allow",
+      "Action": "s3:ListBucket",
+      "Resource": [
+        "arn:aws:s3:::${var.archive_bucket_name}"
+      ]
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "datadog-core-attach" {
   count      = var.enable_datadog_aws_integration ? 1 : 0
   role       = aws_iam_role.datadog-integration[0].name
   policy_arn = aws_iam_policy.datadog-core[0].arn
+}
+
+resource "aws_iam_role_policy_attachment" "datadog-archive-logs-attach" {
+  count      = var.enable_datadog_aws_integration ? 1 : 0
+  role       = aws_iam_role.datadog-integration[0].name
+  policy_arn = aws_iam_policy.datadog-archive-logs[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "datadog-core-attach-extras" {
@@ -148,3 +187,4 @@ resource "aws_iam_role_policy_attachment" "datadog-core-attach-extras" {
   role       = aws_iam_role.datadog-integration[0].name
   policy_arn = each.value
 }
+
