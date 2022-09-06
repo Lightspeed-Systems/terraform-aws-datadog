@@ -20,7 +20,7 @@ resource "aws_cloudformation_stack" "datadog-forwarder" {
 
 resource "aws_secretsmanager_secret" "datadog_api_key" {
   # name_prefix = "${local.stack_prefix}datadog-api-key"
-  name        = "${local.stack_prefix}datadog-api-key"
+  name        = "datadog-${var.env}-api-key"
   description = "Datadog API Key"
   tags        = local.default_tags
 }
@@ -31,7 +31,7 @@ resource "aws_secretsmanager_secret_version" "datadog_api_key" {
 }
 
 resource "aws_ssm_parameter" "datadog_api_key" {
-  name        = "${local.stack_prefix}datadog-api-key"
+  name        = "datadog-${var.env}-api-key"
   description = "Datadog API Key"
   type        = "SecureString"
   value       = var.datadog_api_key
