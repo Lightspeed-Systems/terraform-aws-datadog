@@ -4,6 +4,5 @@ locals {
     env             = var.env
     namespace       = var.namespace
     TerraformModule = "terraform-aws-datadog"
-    Environment     = title(var.env)
   }
 }
