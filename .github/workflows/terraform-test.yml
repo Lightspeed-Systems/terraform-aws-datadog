@@ -1,0 +1,18 @@
+name: Terraform Test
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+# The shared workflow only needs to read the repo; its PR comment is posted
+# with a GitHub App token, not GITHUB_TOKEN.
+permissions:
+  contents: read
+
+jobs:
+  # Keep the job id `terraform-test`: branch protection requires the check
+  # context "terraform-test / test".
+  terraform-test:
+    uses: Lightspeed-Systems/github-reusable-workflows/.github/workflows/terraform-test.yml@main
+    secrets: inherit
